@@ -1,11 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using RealEstateDapperUI.Dtos.PopularLocationDtos;
 
 namespace RealEstateDapperUI.ViewComponents.Home
 {
     public class _HomeProductListExploreCities:ViewComponent
     {
-        public IViewComponentResult Invoke()
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        public _HomeProductListExploreCities(IHttpClientFactory httpClientFactory)
         {
+            _httpClientFactory = httpClientFactory;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync("https://localhost:44337/api/PopularLocations");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var jsonData = await responseMessage.Content.ReadAsStringAsync();
+                var values = JsonConvert.DeserializeObject<List<ResultPopularLocationDto>>(jsonData);
+                return View(values);
+
+            }
+
             return View();  
         }
     }
