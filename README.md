@@ -3,6 +3,7 @@ Bu proje Dapper ve Asp.Net kullanılarak geliştirilmiş bir Emlak İlanı yayı
 
 ## Kullanılan Teknolojiler
 - ASP.NET
+- Web API
 - Sql
 - Dapper
 - MVC
